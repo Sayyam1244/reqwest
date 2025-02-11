@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reqwest/SRC/Presentation/views/Home/home_screen.dart';
+import 'package:reqwest/SRC/Presentation/views/Search/search_screen.dart';
 import 'package:reqwest/gen/assets.gen.dart';
 
 class DashboardController {
@@ -14,7 +15,7 @@ class DashboardController {
     DashboardItemModel(
       title: 'Search',
       icon: Assets.icons.search,
-      screen: const SizedBox(),
+      screen: const SearchScreen(),
     ),
     DashboardItemModel(
       title: 'Task',
