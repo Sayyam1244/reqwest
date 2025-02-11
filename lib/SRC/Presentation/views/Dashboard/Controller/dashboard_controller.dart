@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:reqwest/SRC/Presentation/views/AllTasks/all_tasks_screen.dart';
 import 'package:reqwest/SRC/Presentation/views/Home/home_screen.dart';
+import 'package:reqwest/SRC/Presentation/views/Profile/profile_screen.dart';
 import 'package:reqwest/SRC/Presentation/views/Search/search_screen.dart';
 import 'package:reqwest/gen/assets.gen.dart';
 
@@ -20,12 +22,12 @@ class DashboardController {
     DashboardItemModel(
       title: 'Task',
       icon: Assets.icons.task,
-      screen: const SizedBox(),
+      screen: const AllTasksScreen(),
     ),
     DashboardItemModel(
       title: 'Profile',
       icon: Assets.icons.profile,
-      screen: const SizedBox(),
+      screen: const ProfileScreen(),
     ),
   ];
   ValueNotifier<int> index = ValueNotifier(0);

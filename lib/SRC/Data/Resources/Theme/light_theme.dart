@@ -87,12 +87,12 @@ mixin CustomLightTheme {
 
   // Chip Theme
   static ChipThemeData chipThemeData() => ChipThemeData(
-        backgroundColor: Colors.transparent,
+        backgroundColor: LightColorsPalate.secondaryColor,
+        selectedColor: LightColorsPalate.primaryColor,
         padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 11),
         // selectedColor: DarkColorsPalate.secondaryColor,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(42),
-          side: const BorderSide(color: LightColorsPalate.boxOutlineDarkColor),
+          borderRadius: BorderRadius.circular(8),
         ),
         brightness: Brightness.dark,
         labelStyle: AppTextStyles.regular(),
@@ -222,7 +222,7 @@ mixin CustomLightTheme {
       titleMedium: AppTextStyles.medium(
           fontSize: 20, color: LightColorsPalate.surfaceColor),
       titleSmall: AppTextStyles.medium(
-          fontSize: 20, color: LightColorsPalate.surfaceColor),
+          fontSize: 18, color: LightColorsPalate.surfaceColor),
 
       //Regular Style
       bodyLarge: AppTextStyles.regular(

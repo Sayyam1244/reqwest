@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quick_router/Routers/quick_routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:reqwest/SRC/Presentation/Common/app_text.dart';
 import 'package:reqwest/SRC/Presentation/Common/asset_image_widget.dart';
 import 'package:reqwest/SRC/Presentation/Common/custom_appbar.dart';
+import 'package:reqwest/SRC/Presentation/views/ConfirmBooking/confirm_booking_screen.dart';
 import 'package:reqwest/SRC/Presentation/views/Home/Components/banner_widget.dart';
 import 'package:reqwest/SRC/Presentation/views/Home/Components/category_item_widget.dart';
 import 'package:reqwest/SRC/Presentation/views/Home/Components/task_item_widget.dart';
@@ -42,7 +44,11 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               scrollDirection: Axis.horizontal,
               itemCount: 20,
-              itemBuilder: (context, index) => const CategoryItemWidget(),
+              itemBuilder: (context, index) => CategoryItemWidget(
+                onTap: () {
+                  context.to(const ConfirmBookingScreen());
+                },
+              ),
               separatorBuilder: (BuildContext context, int index) {
                 return 30.horizontalSpace;
               },

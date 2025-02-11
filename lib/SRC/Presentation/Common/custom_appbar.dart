@@ -7,22 +7,25 @@ AppBar customAppbar({
   required BuildContext context,
   List<Widget>? actions,
   Widget? leading,
+  bool showUnderline = true,
+  bool isTitleCentered = false,
 }) {
   final theme = Theme.of(context);
 
   return AppBar(
-    bottom: const PreferredSize(
-      preferredSize: Size.fromHeight(1),
-      child: Divider(),
-    ),
+    bottom: showUnderline == true
+        ? const PreferredSize(
+            preferredSize: Size.fromHeight(1),
+            child: Divider(),
+          )
+        : null,
     leading: leading,
-    centerTitle: false,
+    centerTitle: isTitleCentered,
     titleSpacing: 0,
     title: AppText(
       title,
-      style: theme.textTheme.bodyLarge!.copyWith(
-        color: theme.colorScheme.onBackground.withOpacity(0.6),
-      ),
+      style: theme.textTheme.bodyLarge!
+          .copyWith(color: theme.colorScheme.onBackground),
     ),
     actions: actions,
   );

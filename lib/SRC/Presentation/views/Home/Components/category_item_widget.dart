@@ -7,23 +7,27 @@ import 'package:reqwest/gen/assets.gen.dart';
 class CategoryItemWidget extends StatelessWidget {
   const CategoryItemWidget({
     super.key,
+    required this.onTap,
   });
-
+  final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Column(
-      children: [
-        DynamicAppIconHandler.buildIcon(
-          context: context,
-          svg: Assets.icons.sewage,
-        ),
-        6.verticalSpace,
-        AppText(
-          'Electrical',
-          style: theme.textTheme.bodyMedium,
-        )
-      ],
+    return InkWell(
+      onTap: onTap,
+      child: Column(
+        children: [
+          DynamicAppIconHandler.buildIcon(
+            context: context,
+            svg: Assets.icons.sewage,
+          ),
+          6.verticalSpace,
+          AppText(
+            'Electrical',
+            style: theme.textTheme.bodyMedium,
+          )
+        ],
+      ),
     );
   }
 }
