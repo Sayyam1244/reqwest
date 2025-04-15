@@ -2,14 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:reqwest/SRC/Presentation/Common/app_text.dart';
 
 class TaskStatusToggleButton extends StatefulWidget {
-  const TaskStatusToggleButton({super.key, required this.onStatusChanged});
+  const TaskStatusToggleButton(
+      {super.key, required this.onStatusChanged, required this.value});
   final Function(bool) onStatusChanged;
+  final bool value;
   @override
   State<TaskStatusToggleButton> createState() => _TaskStatusToggleButtonState();
 }
 
 class _TaskStatusToggleButtonState extends State<TaskStatusToggleButton> {
   bool isCompleted = false;
+  @override
+  void initState() {
+    isCompleted = widget.value;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +49,8 @@ class _TaskStatusToggleButtonState extends State<TaskStatusToggleButton> {
                     'Completed',
                     style: theme.textTheme.bodyMedium!.copyWith(
                       color: isCompleted
-                          ? theme.colorScheme.background
-                          : theme.colorScheme.onBackground,
+                          ? theme.colorScheme.surface
+                          : theme.colorScheme.onSurface,
                     ),
                   ),
                 ),
@@ -68,8 +75,8 @@ class _TaskStatusToggleButtonState extends State<TaskStatusToggleButton> {
                     'In-Progress',
                     style: theme.textTheme.bodyMedium!.copyWith(
                       color: isCompleted
-                          ? theme.colorScheme.onBackground
-                          : theme.colorScheme.background,
+                          ? theme.colorScheme.onSurface
+                          : theme.colorScheme.surface,
                     ),
                   ),
                 ),

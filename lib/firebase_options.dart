@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -65,4 +62,14 @@ class DefaultFirebaseOptions {
     storageBucket: 'reqwest-app.firebasestorage.app',
     iosBundleId: 'com.sayyamdev.reqwest',
   );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyCAX-CAdhwB7wDLcn-FJvqgDMtBQr_VBjk',
+    appId: '1:876161752731:web:94cfe8ea61fc5ed26d703e',
+    messagingSenderId: '876161752731',
+    projectId: 'reqwest-app',
+    authDomain: 'reqwest-app.firebaseapp.com',
+    storageBucket: 'reqwest-app.firebasestorage.app',
+  );
+
 }

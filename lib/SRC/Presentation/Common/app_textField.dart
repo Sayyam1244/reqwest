@@ -73,11 +73,13 @@ class AppTextField extends StatefulWidget {
     this.prefixWidth,
     this.enabled,
     this.style,
+    this.onFieldSubmitted,
   });
 
   final double? borderRadius;
   final bool? enabled;
   final TextStyle? style;
+  final Function(String)? onFieldSubmitted;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();
@@ -126,6 +128,7 @@ class _AppTextFieldState extends State<AppTextField> {
               ],
             ),
             child: TextFormField(
+              onFieldSubmitted: widget.onFieldSubmitted,
               inputFormatters: widget.inputFormatters,
               onTap: widget.onTap,
               readOnly: widget.readOnly ?? false,
@@ -140,8 +143,7 @@ class _AppTextFieldState extends State<AppTextField> {
               validator: widget.validator,
               onChanged: widget.onChanged,
               keyboardType: widget.textInputType,
-              obscureText:
-                  widget.isState != null ? !isHide : widget.obscureText,
+              obscureText: widget.isState != null ? !isHide : widget.obscureText,
               controller: widget.controller,
               maxLines: widget.maxline,
               style: widget.style ?? themeData.textTheme.bodyMedium!,
@@ -153,8 +155,7 @@ class _AppTextFieldState extends State<AppTextField> {
                 hintStyle: widget.hintStyle ??
                     themeData.textTheme.bodyMedium!.copyWith(
                       fontSize: 13,
-                      color:
-                          themeData.colorScheme.onBackground.withOpacity(0.5),
+                      color: themeData.colorScheme.onSurface.withOpacity(0.5),
                     ),
                 prefixIcon: widget.prefixIcon,
 
@@ -172,20 +173,20 @@ class _AppTextFieldState extends State<AppTextField> {
                 // labelStyle: themeData.textTheme.labelMedium,
                 alignLabelWithHint: true,
                 border: widget.borderColor != null
-                    ? themeData.inputDecorationTheme.border!.copyWith(
-                        borderSide: BorderSide(color: widget.borderColor!))
+                    ? themeData.inputDecorationTheme.border!
+                        .copyWith(borderSide: BorderSide(color: widget.borderColor!))
                     : null,
                 enabledBorder: widget.borderColor != null
-                    ? themeData.inputDecorationTheme.border!.copyWith(
-                        borderSide: BorderSide(color: widget.borderColor!))
+                    ? themeData.inputDecorationTheme.border!
+                        .copyWith(borderSide: BorderSide(color: widget.borderColor!))
                     : null,
                 focusedBorder: widget.borderColor != null
-                    ? themeData.inputDecorationTheme.border!.copyWith(
-                        borderSide: BorderSide(color: widget.borderColor!))
+                    ? themeData.inputDecorationTheme.border!
+                        .copyWith(borderSide: BorderSide(color: widget.borderColor!))
                     : null,
                 disabledBorder: widget.borderColor != null
-                    ? themeData.inputDecorationTheme.border!.copyWith(
-                        borderSide: BorderSide(color: widget.borderColor!))
+                    ? themeData.inputDecorationTheme.border!
+                        .copyWith(borderSide: BorderSide(color: widget.borderColor!))
                     : null,
 
                 ///changess

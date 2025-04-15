@@ -1,29 +1,28 @@
-import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:reqwest/SRC/Domain/Models/category_model.dart';
 
 class UserModel {
   String? email;
-  String fullName;
+  String? firstName;
+  String? lastName;
   String? docId;
-  String? businessId;
-  String? profilePhoto;
-  Timestamp? creationTime;
-  bool isActive;
-  bool isBlocked;
   String? phoneNumber;
+  String? password;
+  String? role;
+  String? categoryId;
+  CategoryModel? categoryModel;
 
   // Constructor
   UserModel({
     this.email,
-    required this.fullName,
     this.docId,
-    this.businessId,
+    this.firstName,
     this.phoneNumber,
-    this.profilePhoto,
-    this.creationTime,
-    required this.isActive,
-    required this.isBlocked,
+    this.lastName,
+    this.password,
+    this.role,
+    this.categoryId,
+    this.categoryModel,
   });
 
   // Factory method to create a UserModel from Firestore document
@@ -32,43 +31,60 @@ class UserModel {
 
     return UserModel(
       email: data['email'],
-      fullName: data['fullName'],
-      docId: doc.id, // This is the document ID from Firestore
-      businessId: data['businessId'],
+      firstName: data['firstName'],
+      lastName: data['lastName'],
       phoneNumber: data['phoneNumber'],
-      profilePhoto: data['profilePhoto'],
-      creationTime: data['creationTime'],
-      isActive: data['isActive'] ?? true,
-      isBlocked: data['isBlocked'] ?? false,
+      docId: doc.id,
+      role: data['role'],
+      categoryId: data['categoryId'],
     );
   }
   factory UserModel.fromJson(Map<String, dynamic> data) {
     return UserModel(
       email: data['email'],
-      fullName: data['fullName'],
+      firstName: data['firstName'],
+      lastName: data['lastName'],
       phoneNumber: data['phoneNumber'],
       docId: data['docId'],
-      businessId: data['businessId'],
-      profilePhoto: data['profilePhoto'],
-      creationTime: Timestamp.fromMicrosecondsSinceEpoch(
-          data['creationTime']['_seconds']),
-      isActive: data['isActive'] ?? true,
-      isBlocked: data['isBlocked'] ?? false,
+      role: data['role'],
+      categoryId: data['categoryId'],
     );
   }
 
-  // Method to convert the UserModel to a map for Firestore
   Map<String, dynamic> toMap() {
     return {
-      'docId': docId,
-      'email': email,
-      'fullName': fullName,
-      'phoneNumber': phoneNumber,
-      'businessId': businessId,
-      'profilePhoto': profilePhoto,
       'creationTime': FieldValue.serverTimestamp(),
-      'isActive': isActive,
-      'isBlocked': isBlocked,
+      'email': email,
+      'firstName': firstName,
+      'lastName': lastName,
+      'phoneNumber': phoneNumber,
+      'docId': docId,
+      'role': role,
+      'categoryId': categoryId,
     };
+  }
+
+  UserModel copyWith({
+    String? email,
+    String? firstName,
+    String? lastName,
+    String? docId,
+    String? phoneNumber,
+    String? password,
+    String? role,
+    String? categoryId,
+    CategoryModel? categoryModel,
+  }) {
+    return UserModel(
+      email: email ?? this.email,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      docId: docId ?? this.docId,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      password: password ?? this.password,
+      role: role ?? this.role,
+      categoryId: categoryId ?? this.categoryId,
+      categoryModel: categoryModel ?? this.categoryModel,
+    );
   }
 }

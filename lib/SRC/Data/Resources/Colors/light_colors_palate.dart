@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LightColorsPalate {
-  static const Color sheetGred1 = Color(0xFF2F3145);
+  static const Color sheetGred1 = Color(0xff2A2A2A);
   static const Color sheetGred2 = Color(0xff6A6D7C);
   static const Color primaryColor = Color(0xff37BD6B);
   static const Color secondaryColor = Color(0xFFD1D4DA);

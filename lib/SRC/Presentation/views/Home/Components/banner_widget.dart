@@ -34,13 +34,13 @@ class BannerWidget extends StatelessWidget {
                     AppText(
                       '20% ',
                       style: theme.textTheme.headlineLarge?.copyWith(
-                        color: theme.colorScheme.background,
+                        color: theme.colorScheme.surface,
                       ),
                     ),
                     AppText(
                       'off',
                       style: theme.textTheme.titleMedium?.copyWith(
-                        color: theme.colorScheme.background,
+                        color: theme.colorScheme.surface,
                       ),
                     ),
                   ],
@@ -51,7 +51,7 @@ class BannerWidget extends StatelessWidget {
                   width: 100.w,
                   text: 'Book now',
                   textColor: theme.colorScheme.primary,
-                  backgroundColor: theme.colorScheme.background,
+                  backgroundColor: theme.colorScheme.surface,
                 ),
                 10.verticalSpace,
               ],
@@ -62,7 +62,7 @@ class BannerWidget extends StatelessWidget {
             alignment: Alignment.bottomRight,
             child: AssetImageWidget(
               url: Assets.images.plumber.path,
-              height: 140.h,
+              height: 130.h,
               // width: 160.w,
             ),
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reqwest/SRC/Application/Services/AuthServices/auth_services.dart';
 import 'package:reqwest/SRC/Presentation/Common/app_icon_handler.dart';
 import 'package:reqwest/SRC/Presentation/views/Dashboard/Controller/dashboard_controller.dart';
 import 'package:collection/collection.dart';
@@ -12,6 +13,14 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   final DashboardController controller = DashboardController.instance;
+  @override
+  void initState() {
+    if (AuthServices.instance.userModel!.role != 'customer') {
+      controller.dashboardItems.removeAt(1);
+    }
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

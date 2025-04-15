@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:reqwest/SRC/Domain/Models/task_model.dart';
 import 'package:reqwest/SRC/Presentation/Common/app_icon_handler.dart';
 import 'package:reqwest/SRC/Presentation/Common/app_text.dart';
 import 'package:reqwest/SRC/Presentation/Common/asset_image_widget.dart';
 import 'package:reqwest/SRC/Presentation/Common/custom_appbar.dart';
 import 'package:reqwest/gen/assets.gen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OrderDetailScreen extends StatefulWidget {
-  const OrderDetailScreen({super.key, this.isFirstTime = true});
+  const OrderDetailScreen({
+    super.key,
+    required this.taskModel,
+    this.isFirstTime = false,
+  });
+  final TaskModel taskModel;
   final bool isFirstTime;
   @override
   State<OrderDetailScreen> createState() => _OrderDetailScreenState();
@@ -26,6 +33,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         showUnderline: false,
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Divider(thickness: 10),
           12.verticalSpace,
@@ -34,6 +42,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             child: Row(
               children: [
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AppText(
                       'Order ID',
@@ -43,9 +52,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     ),
                     8.verticalSpace,
                     AppText(
-                      '# 54ez67b39',
+                      '# ${widget.taskModel.docId}',
                       style: theme.textTheme.bodySmall!.copyWith(
-                        color: theme.colorScheme.onBackground.withOpacity(0.5),
+                        color: theme.colorScheme.onSurface.withOpacity(0.5),
                       ),
                     ),
                   ],
@@ -58,32 +67,31 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               ],
             ),
           ),
-          if (!widget.isFirstTime)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  40.verticalSpace,
-                  AppText(
-                    'Task Description',
-                    style: theme.textTheme.titleSmall!.copyWith(
-                      fontSize: 16,
-                    ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                40.verticalSpace,
+                AppText(
+                  'Task Description',
+                  style: theme.textTheme.titleSmall!.copyWith(
+                    fontSize: 16,
                   ),
-                  8.verticalSpace,
-                  AppText(
-                    maxLine: 100,
-                    'The toilet is not flushing properly. The toilet is not flushing properly. It has been clogged for two days',
-                    style: theme.textTheme.bodySmall!.copyWith(
-                      color: theme.colorScheme.onBackground.withOpacity(0.5),
-                    ),
+                ),
+                8.verticalSpace,
+                AppText(
+                  maxLine: 100,
+                  widget.taskModel.description ?? '',
+                  style: theme.textTheme.bodySmall!.copyWith(
+                    color: theme.colorScheme.onSurface.withOpacity(0.5),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
+          ),
           32.verticalSpace,
-          if (widget.isFirstTime) const Divider(thickness: 30),
+          const Divider(thickness: 30),
           if (widget.isFirstTime)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -113,46 +121,54 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             ),
           Divider(thickness: widget.isFirstTime ? 30 : 20),
           32.verticalSpace,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Row(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(4),
-                  child: AssetImageWidget(
-                    height: 44,
-                    width: 44,
-                    fit: BoxFit.cover,
-                    url: Assets.images.chef.path,
+          if (widget.taskModel.assignTo != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Row(
+                children: [
+                  Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4),
+                        color: theme.colorScheme.primary.withOpacity(0.1),
+                      ),
+                      child: DynamicAppIconHandler.buildIcon(
+                        context: context,
+                        svg: Assets.icons.profile,
+                        iconColor: theme.colorScheme.primary,
+                        iconHeight: 40,
+                        iconWidth: 40,
+                      )),
+                  8.horizontalSpace,
+                  Column(
+                    children: [
+                      AppText(
+                        '${widget.taskModel.assignToUser?.firstName} ${widget.taskModel.assignToUser?.lastName}',
+                        style: theme.textTheme.titleSmall!.copyWith(
+                          fontSize: 16,
+                        ),
+                      ),
+                      4.verticalSpace,
+                      AppText(
+                        '${widget.taskModel.assignToUser?.categoryModel?.name}',
+                        style: theme.textTheme.bodySmall!.copyWith(
+                          color: theme.colorScheme.onSurface.withOpacity(0.5),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                8.horizontalSpace,
-                Column(
-                  children: [
-                    AppText(
-                      'Adam ',
-                      style: theme.textTheme.titleSmall!.copyWith(
-                        fontSize: 16,
-                      ),
-                    ),
-                    4.verticalSpace,
-                    AppText(
-                      'Plumber',
-                      style: theme.textTheme.bodySmall!.copyWith(
-                        color: theme.colorScheme.onBackground.withOpacity(0.5),
-                      ),
-                    ),
-                  ],
-                ),
-                const Spacer(),
-                DynamicAppIconHandler.buildIcon(
-                  context: context,
-                  icon: Icons.phone,
-                  iconColor: theme.colorScheme.primary,
-                ),
-              ],
+                  const Spacer(),
+                  DynamicAppIconHandler.buildIcon(
+                    onTap: () async {
+                      await launchUrl(Uri.parse(
+                          'tel:${widget.taskModel.assignToUser?.phoneNumber}'));
+                    },
+                    context: context,
+                    icon: Icons.phone,
+                    iconColor: theme.colorScheme.primary,
+                  ),
+                ],
+              ),
             ),
-          ),
         ],
       ),
     );

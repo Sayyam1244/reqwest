@@ -4,7 +4,11 @@ import 'package:reqwest/SRC/Presentation/Common/app_text.dart';
 class LogoWidget extends StatelessWidget {
   const LogoWidget({
     super.key,
+    this.firstColor,
+    this.secondColor,
   });
+  final Color? firstColor;
+  final Color? secondColor;
 
   @override
   Widget build(BuildContext context) {
@@ -16,12 +20,12 @@ class LogoWidget extends StatelessWidget {
       children: [
         AppText(
           'Re',
-          style: theme.textTheme.headlineMedium,
+          style: theme.textTheme.headlineMedium?.copyWith(color: firstColor),
         ),
         AppText(
           'qwest',
           style: theme.textTheme.headlineMedium!.copyWith(
-            color: theme.colorScheme.background,
+            color: secondColor ?? theme.colorScheme.surface,
           ),
         ),
       ],

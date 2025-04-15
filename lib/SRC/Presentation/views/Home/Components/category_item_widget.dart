@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:reqwest/SRC/Domain/Models/category_model.dart';
 import 'package:reqwest/SRC/Presentation/Common/app_icon_handler.dart';
 import 'package:reqwest/SRC/Presentation/Common/app_text.dart';
 import 'package:reqwest/gen/assets.gen.dart';
 
 class CategoryItemWidget extends StatelessWidget {
-  const CategoryItemWidget({
+  CategoryItemWidget({
+    required this.category,
     super.key,
     required this.onTap,
   });
   final VoidCallback onTap;
+  CategoryModel category;
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -23,7 +26,7 @@ class CategoryItemWidget extends StatelessWidget {
           ),
           6.verticalSpace,
           AppText(
-            'Electrical',
+            category.name,
             style: theme.textTheme.bodyMedium,
           )
         ],

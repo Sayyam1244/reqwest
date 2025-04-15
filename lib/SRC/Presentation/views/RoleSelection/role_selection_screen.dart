@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_quick_router/Routers/quick_routes.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:reqwest/SRC/Application/Services/AuthServices/auth_services.dart';
+import 'package:reqwest/SRC/Domain/Models/user_model.dart';
 import 'package:reqwest/SRC/Presentation/Common/common_button.dart';
+import 'package:reqwest/SRC/Presentation/Common/snackbar.dart';
 import 'package:reqwest/SRC/Presentation/views/Dashboard/dashboard_screen.dart';
+import 'package:reqwest/main.dart';
 
 class RoleSelection extends StatefulWidget {
   const RoleSelection({
     super.key,
+    required this.userModel,
   });
-
+  final UserModel userModel;
   @override
   State<RoleSelection> createState() => _RoleSelectionState();
 }
@@ -31,8 +36,7 @@ class _RoleSelectionState extends State<RoleSelection> {
               TextSpan(text: 'Re', style: theme.textTheme.headlineMedium),
               TextSpan(
                   text: 'qwest',
-                  style: theme.textTheme.headlineMedium
-                      ?.copyWith(color: Theme.of(context).primaryColor)),
+                  style: theme.textTheme.headlineMedium?.copyWith(color: Theme.of(context).primaryColor)),
             ])),
             34.verticalSpace,
             Text(
@@ -44,13 +48,12 @@ class _RoleSelectionState extends State<RoleSelection> {
               'Welcome, Wasim! Please select your role to proceed.',
               maxLines: 2,
               style: theme.textTheme.bodyMedium!.copyWith(
-                color: theme.colorScheme.onBackground.withOpacity(0.6),
+                color: theme.colorScheme.onSurface.withOpacity(0.6),
               ),
             ),
             50.verticalSpace,
             CommonButton(
-              borderColor:
-                  (isStaff ?? false) ? theme.colorScheme.primary : null,
+              borderColor: (isStaff ?? false) ? theme.colorScheme.primary : null,
               backgroundColor: (isStaff ?? false)
                   ? theme.colorScheme.primary.withOpacity(0.4)
                   : theme.colorScheme.secondary,
@@ -60,12 +63,11 @@ class _RoleSelectionState extends State<RoleSelection> {
                   isStaff = true;
                 });
               },
-              textColor: theme.colorScheme.onBackground,
+              textColor: theme.colorScheme.onSurface,
             ),
             20.verticalSpace,
             CommonButton(
-              borderColor:
-                  (isStaff == false) ? theme.colorScheme.primary : null,
+              borderColor: (isStaff == false) ? theme.colorScheme.primary : null,
               backgroundColor: (isStaff == false)
                   ? theme.colorScheme.primary.withOpacity(0.4)
                   : theme.colorScheme.secondary,
@@ -75,14 +77,26 @@ class _RoleSelectionState extends State<RoleSelection> {
                   isStaff = false;
                 });
               },
-              textColor: theme.colorScheme.onBackground,
+              textColor: theme.colorScheme.onSurface,
             ),
             const Spacer(),
             CommonButton(
               text: 'Next',
-              onTap: () {
+              onTap: () async {
+                showLoading();
                 if (isStaff == null) return;
-                context.to(const DashboardScreen());
+
+                UserModel newUserModel = widget.userModel;
+                newUserModel.role = isStaff! ? 'staff' : 'customer';
+                final res = await AuthServices.instance.createUser(userModel: newUserModel);
+                if (res is String) {
+                  showToast(res);
+                } else if (res is UserModel) {
+                  AuthServices.instance.userModel = res;
+                  isStaffFlow = AuthServices.instance.userModel!.role == 'staff';
+                  context.to(const DashboardScreen());
+                }
+                dismiss();
               },
             ),
             24.verticalSpace,
